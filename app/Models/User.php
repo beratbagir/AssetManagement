@@ -13,7 +13,7 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, Notifiable;
-    use HasRoles;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -48,16 +48,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function rolesAdmin()
-    {
-    return $this->belongsToMany(Role::class);
-
-    }
-
-
-
-
-
-
 }

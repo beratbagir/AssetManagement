@@ -3,13 +3,15 @@
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\licenceController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/', function () {
     return view('dashboard');
-});
+})->middleware('auth');
 
 Route::get('/login', function(){
     return view('/back/page/auth/login');
@@ -46,21 +48,39 @@ Route::get('/settings', function(){
     return view('/back/page/auth/settings');
 })->name('author.settings');
 
-//users sayfası
-Route::get('/users', function(){
-    return view('admin.users');
-})->name('users');
-Route::get('/users', [UserController::class, 'getUser'])->name('getuser');
-Route::post('/users', [UserController::class, 'postUser'])->name('postuser');
-Route::delete('/users/{id}', [UserController::class, 'deleteAdmin'])->name('users.delete');
+// Users sayfası - Sadece admin yetkisi gereken rotalar
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('users')->group(function () {
+        Route::get('/', function(){
+            return view('admin.users');
+        })->name('users');
+        Route::get('/', [UserController::class, 'getUser'])->name('getuser');
+        Route::post('/', [UserController::class, 'postUser'])->name('postuser');
+        Route::delete('/{id}', [UserController::class, 'deleteAdmin'])->name('users.delete');
+    });
+});
 
+// Asset rotaları
+Route::prefix('assets')->group(function () {
+    Route::get('/', [AssetController::class, 'index'])->name('assets.index');
+    Route::get('/create', [AssetController::class, 'create'])->name('assets.create');
+    Route::post('/', [AssetController::class, 'store'])->name('assets.store');
+    Route::get('/licences/{productId}', [AssetController::class, 'getLicences'])->name('assets.getLicences');
+    Route::get('/{id}/edit', [AssetController::class, 'edit'])->name('assets.edit');
+    Route::put('/{id}', [AssetController::class, 'update'])->name('assets.update');
+    Route::delete('/{id}', [AssetController::class, 'destroy'])->name('assets.destroy');
+});
 
-// Asset oluşturma sayfası
-Route::post('/home', [AssetController::class, 'store'])->name('assets.store');
-Route::delete('/home/{id}', [AssetController::class, 'assetDelete'])->name('delete.asset');
+// Diğer rotalar - Yetkilendirme olmadan
+Route::middleware(['auth'])->group(function () {
+    // Dashboard ve diğer rotalar
+    Route::get('/', [AssetController::class, 'dashboardAssets'])->name('dashboard.assets');
+    Route::get('/barcode', [AssetController::class, 'barcodeAssets'])->name('barcode.assets');
+});
 
-Route::get('/barcode', function(){
-    return view('barcode');
+Route::get('/barcode', function() {
+    $assets = \App\Models\Asset::with(['product', 'licence'])->get();
+    return view('barcode', compact('assets'));
 })->name('barcode.page');
 
 // Asset listeleme (GET)
@@ -70,14 +90,24 @@ Route::get('/home', [AssetController::class, 'index'])->name('assets.index');
 Route::put('/home/{id}', [AssetController::class, 'assetUpdate'])->name('assets.update');
 
 //barkod okuma
-Route::get('/home/{product}', [AssetController::class, 'barcodeIndex'])->name('asset.barcode');
+Route::get('/barcode/{product}', [AssetController::class, 'barcodeIndex'])->name('asset.barcode');
 
-Route::get('/barcode', [AssetController::class, 'barcodeAssets'])->name('barcode.assets');
-
-Route::get('/', [AssetController::class, 'dashboardAssets'])->name('dashboard.assets');
-
-Route::get('/roles', function () {
-    return view('admin.roles');
+// Product rotaları
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/create', [ProductController::class, 'create'])->name('products.create');
+    Route::post('/', [ProductController::class, 'store'])->name('products.store');
+    Route::get('/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::delete('/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-
+// Licence rotaları
+Route::prefix('licences')->group(function () {
+    Route::get('/', [LicenceController::class, 'index'])->name('licences.index');
+    Route::get('/create', [LicenceController::class, 'create'])->name('licences.create');
+    Route::post('/', [LicenceController::class, 'store'])->name('licences.store');
+    Route::get('/{id}/edit', [LicenceController::class, 'edit'])->name('licences.edit');
+    Route::put('/{id}', [LicenceController::class, 'update'])->name('licences.update');
+    Route::delete('/{id}', [LicenceController::class, 'destroy'])->name('licences.destroy');
+});

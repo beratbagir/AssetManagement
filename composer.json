@@ -11,6 +11,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.6",
+        "milon/barcode": "*",
         "picqer/php-barcode-generator": "^3.2",
         "spatie/laravel-permission": "^6.10"
     },

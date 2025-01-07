@@ -52,14 +52,39 @@ class RegisterController extends Controller
         ]);
 
         // Kullanıcı oluşturulması
-        User::create([
+        $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'tittle' => $validatedData['tittle'],
             'password' => Hash::make($validatedData['password']), // Şifreyi hash'leyerek kaydediyoruz
         ]);
 
+        // İlk kullanıcıyı kontrol et
+        if (User::count() === 1) {
+            $user->assignRole('super-admin');
+        } else {
+            $user->assignRole('user');
+        }
+
         // Kullanıcıyı login sayfasına yönlendir
         return redirect('/login')->with('success', 'Kayıt işlemi başarıyla tamamlandı. Giriş yapabilirsiniz.');
+    }
+
+    protected function create(array $data)
+    {
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        // İlk kullanıcıyı kontrol et
+        if (User::count() === 1) {
+            $user->assignRole('super-admin');
+        } else {
+            $user->assignRole('user');
+        }
+
+        return $user;
     }
 }

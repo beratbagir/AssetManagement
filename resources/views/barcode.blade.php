@@ -13,25 +13,25 @@
                     <div class="col">
                         <div class="card shadow-lg h-100 border-light">
                             <div class="card-body text-center">
-                                <div class="mb-3">
-                                    <img src="{{ route('asset.barcode', $asset->id) }}" alt="Barcode" class="img-fluid" style="max-width: 180px;">
+                                <div class="mb-3 barcode-container" data-asset-id="{{ $asset->asset_id }}" data-serial="{{ $asset->serial_number }}">
+                                    <img src="" alt="Barcode" class="img-fluid barcode-image" style="max-width: 180px;">
                                 </div>
 
-                                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.1rem;">{{ $asset->product }}</h5>
+                                <h5 class="fw-bold text-dark mb-2" style="font-size: 1.1rem;">{{ $asset->product->name }}</h5>
 
                                 <div class="text-muted mb-2" style="font-size: 0.9rem;">
-                                    <small>Serial: {{ $asset->serial }}</small>
+                                    <small>Serial: {{ $asset->serial_number }}</small>
                                 </div>
 
                                 <div class="mt-2">
                                     <span class="badge
-                                        {{ $asset->status == 'Deploy' ? 'bg-success' : ($asset->status == 'Pending' ? 'bg-warning text-dark' : ($asset->status == 'Ready to Deploy' ? 'bg-info text-dark' : 'bg-secondary')) }}">
-                                        {{ $asset->status == 'Deploy' ? 'Deploy' : ($asset->status == 'Ready to Deploy' ? 'Ready to Deploy' : $asset->status) }}
+                                        {{ $asset->status == 'active' ? 'bg-success' : ($asset->status == 'inactive' ? 'bg-warning text-dark' : ($asset->status == 'maintenance' ? 'bg-info text-dark' : 'bg-secondary')) }}">
+                                        {{ $asset->status }}
                                     </span>
                                 </div>
                             </div>
                             <div class="card-footer bg-light text-center">
-                                <small class="text-muted">Assigned: {{ $asset->assigned_user }}</small>
+                                <small class="text-muted">Assigned: {{ $asset->assigned_to }}</small>
                             </div>
                             <div class="card-footer bg-light text-center">
                                 <small class="text-muted">Quantity: {{ $asset->quantity }}</small>
@@ -44,4 +44,25 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const barcodeContainers = document.querySelectorAll('.barcode-container');
+    
+    barcodeContainers.forEach(container => {
+        const assetId = container.dataset.assetId;
+        const barcodeImage = container.querySelector('.barcode-image');
+        
+        fetch(`/barcode/${assetId}`)
+            .then(response => response.json())
+            .then(data => {
+                barcodeImage.src = `data:image/png;base64,${data.barcode}`;
+            })
+            .catch(error => console.error('Error loading barcode:', error));
+    });
+});
+</script>
+@endpush
+
 @endsection

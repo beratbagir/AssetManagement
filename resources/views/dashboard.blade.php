@@ -62,19 +62,19 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
+                                <th>Asset Name</th>
                                 <th>Product</th>
-                                <th>Serial</th>
                                 <th>Status</th>
-                                <th>Quantity</th>
+                                <th>Assigned To</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($assets as $asset)
                                 <tr>
-                                    <td>{{ $asset->product }}</td>
-                                    <td>{{ $asset->serial }}</td>
+                                    <td>{{ $asset->name }}</td>
+                                    <td>{{ $asset->product->name }}</td>
                                     <td>{{ $asset->status }}</td>
-                                    <td>{{ $asset->quantity }}</td>
+                                    <td>{{ $asset->assigned_to }}</td>
                                 </tr>
                             @endforeach
                             </tbody>

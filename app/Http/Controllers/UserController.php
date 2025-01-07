@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Role;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -24,7 +25,7 @@ class UserController extends Controller
         $users = User::all();
         $roles = Role::all();
 
-        return view('admin.users', ['users' => $users], ['roles' => $roles]);
+        return view('admin.users', compact('users', 'roles'));
     }
 
     public function deleteAdmin($id)
@@ -50,8 +51,4 @@ class UserController extends Controller
         $user->assignRole($role);
         return redirect('/users');
     }
-
-
-
-
 }

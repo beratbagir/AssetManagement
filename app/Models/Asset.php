@@ -9,6 +9,31 @@ class Asset extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-    protected $fillable = ['id', 'product', 'status', 'asset_name', 'serial', 'assigned_user', 'pdf'];
+    protected $primaryKey = 'asset_id';
+
+    protected $fillable = [
+        'asset_name',
+        'product_id',
+        'licence_id',
+        'serial_number',
+        'quantity',
+        'status',
+        'assigned_to',
+        'notes'
+    ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function licence()
+    {
+        return $this->belongsTo(Licence::class, 'licence_id');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->product->name . ' - ' . $this->licence->licence_key;
+    }
 }
