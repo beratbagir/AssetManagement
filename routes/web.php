@@ -83,12 +83,6 @@ Route::get('/barcode', function() {
     return view('barcode', compact('assets'));
 })->name('barcode.page');
 
-// Asset listeleme (GET)
-Route::get('/home', [AssetController::class, 'index'])->name('assets.index');
-
-// Asset güncelleme (PUT)
-Route::put('/home/{id}', [AssetController::class, 'assetUpdate'])->name('assets.update');
-
 //barkod okuma
 Route::get('/barcode/{product}', [AssetController::class, 'barcodeIndex'])->name('asset.barcode');
 

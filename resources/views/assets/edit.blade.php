@@ -10,7 +10,7 @@
                 <div class="card-header">Edit Asset</div>
 
                 <div class="card-body">
-                    <form action="{{ route('assets.update', $asset->asset_id) }}" method="POST">
+                    <form action="{{ route('assets.update', ['id' => $asset->asset_id]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         

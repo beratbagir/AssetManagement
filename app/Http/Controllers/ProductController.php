@@ -29,7 +29,10 @@ class ProductController extends Controller
             'cost' => 'required|integer'
         ]);
 
-        Product::create($request->all());
+        $data = $request->all();
+        $data['name'] = $request->brand . ' ' . $request->type;
+
+        Product::create($data);
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }

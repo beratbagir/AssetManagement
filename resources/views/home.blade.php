@@ -132,7 +132,7 @@
                                     </div>
                                     <div class="modal-body">
 
-                                        <form action="{{ route('assets.update', $asset->id) }}" method="POST" enctype="multipart/form-data">
+                                        <form action="{{ route('assets.update', $asset->asset_id) }}" method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
 
