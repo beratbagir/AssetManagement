@@ -37,7 +37,6 @@ class UsersProductController extends Controller
         $query->orderBy('name', $direction);
     }
 
-    // Verileri sayfalayarak alıyoruz
     $usersProducts = $query->paginate(10)->appends(request()->query()); // 10, sayfa başına gösterilecek öğe sayısıdır
     $products = Product::all();
     $departments = Department::all();
