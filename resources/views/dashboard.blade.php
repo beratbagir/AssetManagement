@@ -71,7 +71,7 @@
                             <tbody>
                             @foreach($assets as $asset)
                                 <tr>
-                                    <td>{{ $asset->name }}</td>
+                                    <td>{{ $asset->asset_name }}</td>
                                     <td>{{ $asset->product->name }}</td>
                                     <td>{{ $asset->status }}</td>
                                     <td>{{ $asset->assigned_to }}</td>

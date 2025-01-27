@@ -15,6 +15,7 @@ class Licence extends Model
         'product_id',
         'licence_key',
         'expiration_date',
+        'supplier_id',
         'cost',
         'status'
     ];
@@ -31,5 +32,15 @@ class Licence extends Model
     public function assets()
     {
         return $this->hasMany(Asset::class, 'licence_id');
+    }
+
+    public function suppliers()
+    {
+        return $this->belongsTo(Supplier::class, 'licence_supplier', 'supplier_id', 'id');
+    }
+
+    public function manufacturer()
+    {
+        return $this->belongsTo(Manufacturers::class, 'manufacturer_id', 'id');
     }
 }

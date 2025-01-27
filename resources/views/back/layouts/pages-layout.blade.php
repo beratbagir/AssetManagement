@@ -1,12 +1,4 @@
 <!doctype html>
-<!--
-* Tabler - Premium and Open Source dashboard template with responsive and high quality UI.
-* @version 1.0.0-beta20
-* @link https://tabler.io
-* Copyright 2018-2023 The Tabler Authors
-* Copyright 2018-2023 codecalm.net Paweł Kuna
-* Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
--->
 <html lang="en">
   <head>
     <meta charset="utf-8"/>
@@ -16,9 +8,7 @@
     <!-- CSS files -->
     <base href="/">
     <link href="{{ asset('back/dist/css/tabler.min.css')}}" rel="stylesheet"/>
-    <link href="./back/dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="./back/dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="./back/dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
     @stack('stylesheets')
     <link href="./back/dist/css/demo.min.css?1692870487" rel="stylesheet"/>
     <style>
@@ -29,10 +19,37 @@
       body {
       	font-feature-settings: "cv03", "cv04", "cv11";
       }
+      .nav-link-icon {
+        margin-right: 8px;
+        font-size: 1.2em;
+        color: #007bff;
+        transition: color 0.3s ease;
+      }
+      .nav-link-title {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: #333;
+        transition: color 0.3s ease;
+      }
+      .navbar-nav .nav-item .nav-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+      .navbar-nav .nav-item .nav-link:hover {
+        background-color: #f0f0f0;
+      }
+      .navbar-nav .nav-item .nav-link:hover .nav-link-icon,
+      .navbar-nav .nav-item .nav-link:hover .nav-link-title {
+        color: #0056b3;
+      }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
-  <body >
+  <body>
     <script src="./back/dist/js/demo-theme.min.js?1692870487"></script>
     <div class="page">
 
@@ -44,68 +61,89 @@
             <div class="container-xl">
               <ul class="navbar-nav">
                 <li class="nav-item active">
+                  <a class="nav-link" href="/">
+                    <span class="fas fa-tachometer-alt" style="color: #007bff;"></span> <!-- Mavi renk -->
+                    <span class="nav-link-title">&nbsp;&nbsp;&nbsp;Dashboard</span>
+                  </a>
+                </li>
+                
+                <li class="nav-item active">
                   <a class="nav-link" href="/assets">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3l-5 3v-14a2 2 0 0 1 2 -2" />
-                      </svg>
+                      <i class="fas fa-box"></i>
                     </span>
                     <span class="nav-link-title">Assets</span>
                   </a>
                 </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="/users">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                      </svg>
-                    </span>
-                    <span class="nav-link-title">Users</span>
-                  </a>
-                </li>
+                
                 <li class="nav-item active">
                   <a class="nav-link" href="/barcode">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M4 7v-1a2 2 0 0 1 2 -2h2" />
-                        <path d="M4 17v1a2 2 0 0 0 2 2h2" />
-                        <path d="M16 4h2a2 2 0 0 1 2 2v1" />
-                        <path d="M16 20h2a2 2 0 0 0 2 -2v-1" />
-                        <rect x="5" y="11" width="1" height="2" />
-                        <line x1="10" y1="11" x2="10" y2="13" />
-                        <rect x="14" y="11" width="1" height="2" />
-                        <line x1="19" y1="11" x2="19" y2="13" />
-                      </svg>
+                      <i class="fas fa-barcode"></i>
                     </span>
-                    <span class="nav-link-title">Barcode</span>
+                    <span class="nav-link-title">Barcodes</span>
                   </a>
                 </li>
                 <li class="nav-item active">
                   <a class="nav-link" href="/products">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M12 3l8 4.5l0 9l-8 4.5l-8 -4.5l0 -9l8 -4.5" />
-                        <path d="M12 12l8 -4.5" />
-                        <path d="M12 12l0 9" />
-                        <path d="M12 12l-8 -4.5" />
-                      </svg>
+                      <i class="fas fa-cube"></i>
                     </span>
                     <span class="nav-link-title">Products</span>
                   </a>
                 </li>
-              <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last">
-              </div>
+                <li class="nav-item active">
+                  <a class="nav-link" href="/licences">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                      <i class="fas fa-key"></i>
+                    </span>
+                    <span class="nav-link-title">Licences</span>
+                  </a>
+                </li>
+                <!-- Dropdown menu for related items -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                      <i class="fas fa-cog" style="color: #007bff;"></i> <!-- Settings simgesi ve mavi renk -->
+                    </span>
+                    <span class="nav-link-title">Settings</span>
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="usersDropdown">
+                    <li><a class="dropdown-item" href="/users">
+                      <i class="fas fa-user" style="color: #007bff;"></i> <!-- Mavi renkli kullanıcı simgesi -->
+                      &nbsp;&nbsp;Users
+                    </a></li>
+                    <li><a class="dropdown-item" href="/suppliers">
+                      <i class="fas fa-truck" style="color: #007bff;"></i> <!-- Mavi renkli tedarikçi simgesi -->
+                      &nbsp;&nbsp;Suppliers
+                    </a></li>
+                    <li><a class="dropdown-item" href="/manufacturers">
+                      <i class="fas fa-industry" style="color: #007bff;"></i> <!-- Mavi renkli üretici simgesi -->
+                      &nbsp;&nbsp;Manufacturers
+                    </a></li>
+                    <li><a class="dropdown-item" href="/categories">
+                      <i class="fas fa-tag" style="color: #007bff;"></i> <!-- Mavi renkli kategori simgesi -->
+                      &nbsp;&nbsp;Categories
+                    </a></li>
+                    <li><a class="dropdown-item" href="/companies">
+                      <i class="fas fa-building" style="color: #007bff;"></i> <!-- Mavi renkli şirket simgesi -->
+                      &nbsp;&nbsp;Companies
+                    </a></li>
+                    <li><a class="dropdown-item" href="/departments">
+                      <i class="fas fa-sitemap" style="color: #007bff;"></i> <!-- Mavi renkli departman simgesi -->
+                      &nbsp;&nbsp;Departments
+                    </a></li>
+                  </ul>
+                </li>
+                
+              </ul>
+              
+              <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last"></div>
             </div>
           </div>
         </div>
       </header>
+      
       <div class="page-wrapper">
         <!-- Page header -->
         @yield('pageHeader')
@@ -116,6 +154,7 @@
             @yield('content')
           </div>
         </div>
+
         @include('back.layouts.inc.footer')
       </div>
     </div>

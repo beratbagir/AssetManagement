@@ -10,6 +10,7 @@ class Asset extends Model
     use HasFactory;
 
     protected $primaryKey = 'asset_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'asset_name',
@@ -35,5 +36,14 @@ class Asset extends Model
     public function getFullNameAttribute()
     {
         return $this->product->name . ' - ' . $this->licence->licence_key;
+    }
+
+    public function assignedUser()
+    {
+        return $this->belongsTo(User::class, 'assigned_to', 'id');
+    }
+    public function suppliers()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
     }
 }

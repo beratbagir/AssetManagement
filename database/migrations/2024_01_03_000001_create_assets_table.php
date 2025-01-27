@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('asset_name');
             $table->unsignedBigInteger('product_id');
             $table->unsignedBigInteger('licence_id');
+            
             $table->string('serial_number')->nullable();
             $table->integer('quantity')->default(1);
             $table->string('status')->default('active');

@@ -57,11 +57,12 @@
                             <label for="assigned_to">Assigned To</label>
                             <select class="form-control" id="assigned_to" name="assigned_to">
                                 <option value="">Select User</option>
-                                @foreach($users as $user)
-                                    <option value="{{ $user->name }}">{{ $user->name }}</option>
+                                @foreach($usersProducts as $usersProduct)
+                                    <option value="{{ $usersProduct->name }}">{{ $usersProduct->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+                        
 
                         <div class="form-group mb-3">
                             <label for="notes">Notes</label>

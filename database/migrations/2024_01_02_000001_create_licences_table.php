@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('cost');
             $table->string('status');
             $table->timestamps();
-
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreign('product_id')
                   ->references('product_id')
                   ->on('products')

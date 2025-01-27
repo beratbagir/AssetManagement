@@ -5,6 +5,78 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="mb-3">
+            <form action="{{ route('assets.index') }}" method="GET" class="form-inline d-flex align-items-center">
+                <!-- Search -->
+                <div class="form-group mr-2">
+                    <label for="search" class="mr-2">Search:</label>
+                    <input 
+                        type="text" 
+                        name="search" 
+                        id="search" 
+                        class="form-control" 
+                        value="{{ request()->search }}" 
+                        placeholder="Search assets..."
+                    >
+                </div>
+        
+                <!-- Status -->
+                <div class="form-group mr-2">
+                    <label for="status" class="mr-2">Status:</label>
+                    <select 
+                        name="status" 
+                        id="status" 
+                        class="form-control"
+                    >
+                        <option value="">-- Select Status --</option>
+                        <option value="active" {{ request()->status == 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ request()->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                </div>
+        
+                <!-- Product -->
+                <div class="form-group mr-2">
+                    <label for="product_id" class="mr-2">Product:</label>
+                    <select 
+                        name="product_id" 
+                        id="product_id" 
+                        class="form-control"
+                    >
+                        <option value="">-- Select Product --</option>
+                        @foreach($products as $product)
+                            <option value="{{ $product->product_id }}" {{ request()->product_id == $product->product_id ? 'selected' : '' }}>
+                                {{ $product->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+        
+                <!-- Assigned To -->
+                <div class="form-group mr-2">
+                    <label for="product_id" class="mr-2">Assigned To:</label>
+                    <select 
+                        name="assigned_to" 
+                        id="assigned_to" 
+                        class="form-control"
+                    >
+                        <option value="">-- Select Assigned --</option>
+                        @foreach($assets as $asset)
+                            <option value="{{ $asset->assigned_to }}" {{ request()->assigned_to == $asset->assignet_to ? 'selected' : '' }}>
+                                {{ $asset->assigned_to }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+        
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Filter</button>
+                <div class="form-group mr-2">
+                    <a href="{{ route('assets.index') }}" class="btn btn-secondary">Clear</a>
+                </div>
+            </form>
+        </div>
+        
+        
         <div class="col-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -16,17 +88,91 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Asset Name</th>
+                                    <!-- Sortable Table Headers -->
+                                    <th>
+                                        @php
+                                            $nextDirection = request('sort') === 'asset_id' && request('direction') === 'asc' ? 'desc' : 
+                                                             (request('sort') === 'asset_id' && request('direction') === 'desc' ? null : 'asc');
+                                        @endphp
+                                        <a href="{{ route('assets.index', array_merge(request()->all(), ['sort' => 'asset_id', 'direction' => $nextDirection])) }}">
+                                            ID
+                                            @if(request('sort') === 'asset_id')
+                                                @if(request('direction') === 'asc') ▲
+                                                @elseif(request('direction') === 'desc') ▼
+                                                @endif
+                                            @endif
+                                        </a>
+                                    </th>
+                            
+                                    <th>
+                                        @php
+                                            $nextDirection = request('sort') === 'asset_name' && request('direction') === 'asc' ? 'desc' : 
+                                                             (request('sort') === 'asset_name' && request('direction') === 'desc' ? null : 'asc');
+                                        @endphp
+                                        <a href="{{ route('assets.index', array_merge(request()->all(), ['sort' => 'asset_name', 'direction' => $nextDirection])) }}">
+                                            Asset Name
+                                            @if(request('sort') === 'asset_name')
+                                                @if(request('direction') === 'asc') ▲
+                                                @elseif(request('direction') === 'desc') ▼
+                                                @endif
+                                            @endif
+                                        </a>
+                                    </th>
+                            
                                     <th>Product - Licence</th>
                                     <th>Brand</th>
-                                    <th>Serial Number</th>
-                                    <th>Quantity</th>
-                                    <th>Status</th>
+                            
+                                    <th>
+                                        @php
+                                            $nextDirection = request('sort') === 'serial_number' && request('direction') === 'asc' ? 'desc' : 
+                                                             (request('sort') === 'serial_number' && request('direction') === 'desc' ? null : 'asc');
+                                        @endphp
+                                        <a href="{{ route('assets.index', array_merge(request()->all(), ['sort' => 'serial_number', 'direction' => $nextDirection])) }}">
+                                            Serial Number
+                                            @if(request('sort') === 'serial_number')
+                                                @if(request('direction') === 'asc') ▲
+                                                @elseif(request('direction') === 'desc') ▼
+                                                @endif
+                                            @endif
+                                        </a>
+                                    </th>
+                            
+                                    <th>
+                                        @php
+                                            $nextDirection = request('sort') === 'quantity' && request('direction') === 'asc' ? 'desc' : 
+                                                             (request('sort') === 'quantity' && request('direction') === 'desc' ? null : 'asc');
+                                        @endphp
+                                        <a href="{{ route('assets.index', array_merge(request()->all(), ['sort' => 'quantity', 'direction' => $nextDirection])) }}">
+                                            Quantity
+                                            @if(request('sort') === 'quantity')
+                                                @if(request('direction') === 'asc') ▲
+                                                @elseif(request('direction') === 'desc') ▼
+                                                @endif
+                                            @endif
+                                        </a>
+                                    </th>
+                            
+                                    <th>
+                                        @php
+                                            $nextDirection = request('sort') === 'status' && request('direction') === 'asc' ? 'desc' : 
+                                                             (request('sort') === 'status' && request('direction') === 'desc' ? null : 'asc');
+                                        @endphp
+                                        <a href="{{ route('assets.index', array_merge(request()->all(), ['sort' => 'status', 'direction' => $nextDirection])) }}">
+                                            Status
+                                            @if(request('sort') === 'status')
+                                                @if(request('direction') === 'asc') ▲
+                                                @elseif(request('direction') === 'desc') ▼
+                                                @endif
+                                            @endif
+                                        </a>
+                                    </th>
+                            
                                     <th>Assigned To</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
+                            
+                            
                             <tbody>
                                 @foreach($assets as $asset)
                                 <tr>
