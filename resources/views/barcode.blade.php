@@ -7,7 +7,7 @@
     <div class="row justify-content-center">
         <div class="page-body">
             <div class="container-xl">
-                <h2 class="mb-4 text-center" style="font-size: 1.5rem; font-weight: bold; color: black; margin-top: 30px;">Asset Barcodes</h2>
+                <h2 class="mb-4 text-center" style="font-size: 1.5rem; font-weight: bold; color: #007bff; margin-top: 30px;">Asset Barcodes</h2>
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                     @foreach($assets as $asset)
                     <div class="col">

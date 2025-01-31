@@ -125,7 +125,7 @@
                     @forelse($licences as $licence)
                     <tr>
                         <td>{{ $licence->licence_id }}</td>
-                        <td>{{ $licence->product->name ?? 'N/A' }}</td>
+                        <td>{{ $licence->product->product_name ?? 'N/A' }}</td>
                         <td>{{ $licence->licence_key }}</td>
                         <td>{{ $licence->expiration_date }}</td>
                         <td>{{ $licence->cost }}</td>

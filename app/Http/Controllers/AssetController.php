@@ -7,7 +7,9 @@ use App\Models\Product;
 use App\Models\Licence;
 use App\Models\UsersProduct;
 use App\Models\Supplier;
+use App\Models\Manufacturers;
 use Illuminate\Http\Request;
+use App\Models\User;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
@@ -73,14 +75,14 @@ class AssetController extends Controller
         $query->orderBy('status', $direction);
     }
 
-    // Veriyi al
     $assets = $query->paginate(10)->appends(request()->query());
+    $manufacturers = Manufacturers::all();
     $suppliers = Supplier::all();
+    $users = User::all();
     $products = Product::all();
     $licenses = Licence::all();
 
-    // View'e veri gönder
-    return view('assets.index', compact('assets', 'suppliers', 'products', 'licenses'));
+    return view('assets.index', compact('assets', 'suppliers', 'products', 'users', 'licenses', 'manufacturers'));
 }
 
 

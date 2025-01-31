@@ -45,7 +45,7 @@
                         <option value="">-- Select Product --</option>
                         @foreach($products as $product)
                             <option value="{{ $product->product_id }}" {{ request()->product_id == $product->product_id ? 'selected' : '' }}>
-                                {{ $product->name }}
+                                {{ $product->product_name }}
                             </option>
                         @endforeach
                     </select>
@@ -120,7 +120,6 @@
                                     </th>
                             
                                     <th>Product - Licence</th>
-                                    <th>Brand</th>
                             
                                     <th>
                                         @php
@@ -178,8 +177,7 @@
                                 <tr>
                                     <td>{{ $asset->asset_id }}</td>
                                     <td>{{ $asset->asset_name }}</td>
-                                    <td>{{ $asset->full_name }}</td>
-                                    <td>{{ $asset->product->brand }}</td>
+                                    <td>{{ $asset->product->product_name }}</td>
                                     <td>{{ $asset->serial_number }}</td>
                                     <td>{{ $asset->quantity }}</td>
                                     <td>{{ $asset->status }}</td>
@@ -196,6 +194,7 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        {{ $assets->links() }}
                     </div>
                 </div>
             </div>

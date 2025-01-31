@@ -26,12 +26,12 @@ class ProductController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
-        $sortableColumns = ['name', 'brand', 'support_expire_date', 'purchase_date', 'cost'];
+        $sortableColumns = ['product_name', 'brand', 'support_expire_date', 'purchase_date', 'cost'];
         $sort = $request->get('sort', 'name');
         $direction = $request->get('direction', 'asc');
 
-        if ($sort === 'name') {
-            $query->orderBy('name', $direction);
+        if ($sort === 'product_name') {
+            $query->orderBy('product_name', $direction);
         }
 
         if ($sort === 'support_expire_date') {
@@ -46,8 +46,7 @@ class ProductController extends Controller
             $query->orderBy('cost', $direction);
         }
 
-    // Filtrelenmiş sonuçları al ve sayfalama uygula
-    $products = $query->paginate(10)->appends(request()->query()); // Sayfalama ile sonuçları döndür
+    $products = $query->paginate(10)->appends(request()->query()); 
     $categories = Category::all();
 
     return view('products.index', compact('products', 'categories'));
@@ -74,7 +73,7 @@ class ProductController extends Controller
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'manufacturer_id' => 'nullable|exists:manufacturers,id',
-            'name' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
             'type' => 'nullable|string|max:255',
             'support_expire_date' => 'required|date',
             'purchase_date' => 'required|date',
@@ -98,9 +97,9 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'product_name' => 'required|string|max:255',
             'manufacturer_id' => 'nullable|exists:manufacturers,id',
+            'category_id' => 'required|exists:categories,id',
             'type' => 'nullable|string|max:255',
             'support_expire_date' => 'required|date',
             'purchase_date' => 'required|date',

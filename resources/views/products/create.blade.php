@@ -12,8 +12,8 @@
                     <form action="{{ route('products.store') }}" method="POST">
                         @csrf
                         <div class="form-group mb-3">
-                            <label for="name">Name: <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control" id="name" required>
+                            <label for="product_name">Name: <span class="text-danger">*</span></label>
+                            <input type="text" name="product_name" class="form-control" id="product_name" required>
                         </div>
                         <div class="form-group mb-3">
                             <label for="name">Manufacturer</label>

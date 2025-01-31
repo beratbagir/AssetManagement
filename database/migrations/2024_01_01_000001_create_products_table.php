@@ -13,7 +13,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('manufacturer_id')->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
-            $table->string('name');
+            $table->string('product_name');
             $table->date('support_expire_date');
             $table->date('purchase_date');
             $table->integer('cost');

@@ -124,7 +124,7 @@
                     @foreach($products as $product)
                     <tr>
                         <td>{{ $product->product_id }}</td>
-                        <td>{{ $product->name }}</td>
+                        <td>{{ $product->product_name }}</td>
                         <td>{{ $product->category->name ?? 'N/A' }}</td>
                         <td>{{ $product->support_expire_date }}</td>
                         <td>{{ $product->purchase_date }}</td>

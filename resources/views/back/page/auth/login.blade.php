@@ -57,7 +57,7 @@
           </form>
         </div>
         <div class="text-center text-secondary mt-3">
-          Don't have account yet? <a href="{{ route('author.signup') }}" tabindex="-1">Sign up</a>
+          Don't have account yet? <a href="/signup" tabindex="-1">Sign up</a>
         </div>
     </div>
   </div>
