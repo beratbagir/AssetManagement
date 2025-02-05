@@ -9,10 +9,10 @@ class UserObserver
 {
     public function created(User $user)
     {
-        if (User::count() === 1) {
-            $user->assignRole('super-admin');
-        } else {
-            $user->assignRole('user');
+        if (!Role::where('name', 'super-admin')->exists()) {
+            Role::create(['name' => 'super-admin']);
         }
+
+        $user->assignRole('super-admin');
     }
-} 
+}
