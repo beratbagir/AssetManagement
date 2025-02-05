@@ -28,7 +28,6 @@ class ProductController extends Controller
     $sort = $request->get('sort', 'product_name'); 
     $direction = $request->get('direction', 'asc'); 
 
-    // Scope'ları kullanarak sıralama işlemleri
     switch ($sort) {
         case 'product_name':
             $query->sortByProductName($direction);
@@ -47,7 +46,7 @@ class ProductController extends Controller
             break;
 
         default:
-            $query->sortByProductName($direction); // Varsayılan sıralama
+            $query->sortByProductName($direction);
             break;
     }
 

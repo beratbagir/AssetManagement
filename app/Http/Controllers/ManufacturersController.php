@@ -10,15 +10,12 @@ class ManufacturersController extends Controller
 {
     public function index(Request $request)
     {
-
-     // Query başlat
     $query = Manufacturers::query()
-    ->search($request->input('search')); // Search scope'u uygula
+    ->search($request->input('search')); 
 
-// İlgili ürün sayısını ekle
-    $manufacturers = $query->withCount('products') // Ürün sayısını ekler
-    ->paginate(10) // Sayfalama ekle
-    ->appends(request()->query()); // Sayfa numarası ve arama parametrelerini korur
+    $manufacturers = $query->withCount('products') 
+    ->paginate(10) 
+    ->appends(request()->query());
         return view('manufacturers.index', compact('manufacturers'));
     }
 
@@ -29,7 +26,6 @@ class ManufacturersController extends Controller
 
     public function store(StoreManufacturerRequest $request)
     {
-        // FormRequest'ten gelen validated verilerle yeni bir üretici oluştur
         Manufacturers::create($request->validated());
         return redirect()->route('manufacturer.index');
     }
@@ -43,7 +39,6 @@ class ManufacturersController extends Controller
     public function update(UpdateManufacturerRequest $request, $id)
     {
         $manufacturer = Manufacturers::findOrFail($id);
-        // FormRequest'ten gelen validated verilerle üreticiyi güncelle
         $manufacturer->update($request->validated());
 
         return redirect()->route('manufacturer.index');

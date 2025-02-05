@@ -58,14 +58,11 @@ class Licence extends Model
     {
         $sortableColumns = ['licence_id', 'licence_key', 'cost', 'expiration_date', 'status', 'product_id'];
 
-        // Eğer sıralama sütunu desteklenenlerden biriyse, sıralama uygula
         if (in_array($sort, $sortableColumns)) {
             return $query->orderBy($sort, $direction);
         }
 
-        // Varsayılan sıralama
-        return $query->orderBy('licence_id', $direction); // Default sıralama
-    }
+        return $query->orderBy('licence_id', $direction); 
 
     public function assets()
     {

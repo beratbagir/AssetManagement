@@ -14,7 +14,7 @@ class Department extends Model
     public $timestamps = false;
     public function company()
     {
-        return $this->belongsTo(Companies::class);  // Company modeline bağlı
+        return $this->belongsTo(Companies::class);  
     }
     public function scopeSearch($query, $search)
     {
@@ -24,7 +24,6 @@ class Department extends Model
         return $query;
     }
 
-    // Status Scope
     public function scopeFilterByCompany($query, $company_id)
     {
         if (!empty($company_id)) {
@@ -37,19 +36,17 @@ class Department extends Model
     {
         $sortableColumns = ['name', 'company_id'];
 
-        // Eğer sıralama sütunu desteklenenlerden biriyse, sıralama uygula
         if (in_array($sort, $sortableColumns)) {
             return $query->orderBy($sort, $direction);
         }
 
-        // Varsayılan sıralama
-        return $query->orderBy('name', $direction); // Default sıralama
+        return $query->orderBy('name', $direction); 
     }
 
 
 
     public function userproduct()
     {
-        return $this->belongsTo(UsersProduct::class);  // UsersProduct modeline bağlı
+        return $this->belongsTo(UsersProduct::class);  
     }
 }

@@ -38,7 +38,6 @@ class Asset extends Model
         return $query;
     }
 
-    // Status Scope
     public function scopeFilterByStatus($query, $status)
     {
         if (!empty($status)) {
@@ -46,8 +45,6 @@ class Asset extends Model
         }
         return $query;
     }
-
-    // Product Scope
     public function scopeFilterByProduct($query, $productId)
     {
         if (!empty($productId)) {
@@ -56,7 +53,6 @@ class Asset extends Model
         return $query;
     }
 
-    // Assigned To Scope
     public function scopeFilterByAssignedTo($query, $assignedTo)
     {
         if (!empty($assignedTo)) {
@@ -69,16 +65,14 @@ class Asset extends Model
     {
         $sortableColumns = ['asset_name', 'product_id', 'licence_id', 'serial_number', 'quantity', 'status', 'assigned_to', 'brand'];
 
-        // Eğer sıralama sütunu desteklenenlerden biriyse, sıralama uygula
         if (in_array($sort, $sortableColumns)) {
             if ($sort === 'asset_name') {
-                return $query->orderByRaw('LEFT(asset_name, 1) ' . $direction); // asset_name için özel sıralama
+                return $query->orderByRaw('LEFT(asset_name, 1) ' . $direction); 
             }
             return $query->orderBy($sort, $direction);
         }
         
-        // Varsayılan sıralama
-        return $query->orderBy('asset_id', $direction); // Default sıralama
+        return $query->orderBy('asset_id', $direction); 
     }
 
 

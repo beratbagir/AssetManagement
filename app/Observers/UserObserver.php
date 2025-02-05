@@ -9,7 +9,6 @@ class UserObserver
 {
     public function created(User $user)
     {
-        // İlk kullanıcıyı kontrol et
         if (User::count() === 1) {
             $user->assignRole('super-admin');
         } else {

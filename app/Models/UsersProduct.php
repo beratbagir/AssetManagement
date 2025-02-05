@@ -40,13 +40,11 @@ class UsersProduct extends Model
     {
         $sortableColumns = ['id', 'name'];
 
-        // Eğer sıralama sütunu desteklenenlerden biriyse, sıralama uygula
         if (in_array($sort, $sortableColumns)) {
             return $query->orderBy($sort, $direction);
         }
 
-        // Varsayılan sıralama
-        return $query->orderBy('id', $direction); // Default sıralama
+        return $query->orderBy('id', $direction); 
     }
 
     public function department()

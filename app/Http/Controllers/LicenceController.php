@@ -23,10 +23,8 @@ class LicenceController extends Controller
             $query->sortBy($sort, $direction);
 
 
-    // Filtrelenmiş ve ilişkilendirilmiş lisansları al
-    $licences = $query->paginate(10)->appends(request()->query()); // Sayfalama ekle
+    $licences = $query->paginate(10)->appends(request()->query()); 
 
-    // Ürünlerin tam listesini al (eğer gerekliyse)
     $products = Product::all();
 
     return view('licences.index', compact('licences', 'products'));
@@ -42,7 +40,6 @@ class LicenceController extends Controller
 
     public function store(StoreLicencesRequest $request)
     {
-        // FormRequest'ten gelen validated verilerle yeni bir licence oluştur
         Licence::create($request->validated());
 
         return redirect()->route('licences.index')
@@ -60,7 +57,6 @@ class LicenceController extends Controller
     public function update(UpdateLicencesRequest $request, $id)
     {
         $licence = Licence::findOrFail($id);
-        // FormRequest'ten gelen validated verilerle licence'ı güncelle
         $licence->update($request->validated());
 
         return redirect()->route('licences.index')

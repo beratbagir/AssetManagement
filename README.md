@@ -16,9 +16,11 @@ My Dashboard App is a web application built using the powerful Laravel framework
 - Laravel Herd (for local development environment)
 
 ## Installation
+Follow the steps below to get the project up and running on your local environment:
+
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/my-dashboard-app.git
+    git clone https://github.com/beratbagir/my-dashboard-app.git
     ```
 
 2. Navigate into the project directory:
@@ -56,7 +58,7 @@ Your application should now be accessible at `http://localhost:8000`.
 ## Development Setup with Laravel Herd
 Laravel Herd is a local development environment for Mac that is optimized for Laravel projects. You can easily run and develop your Laravel application on your local machine with all the required services like PHP, MySQL, and more.
 
-1. Installation: You can download Laravel Herd from [here](https://laravel.com/docs/8.x/herd).
+1. **Installation**: You can download Laravel Herd from [here](https://laravel.com/docs/8.x/herd).
 2. After installing, you can run the application with the Laravel Herd environment to simplify your setup.
 
 ## Contributing

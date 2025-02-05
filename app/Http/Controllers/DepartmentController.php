@@ -35,7 +35,6 @@ class DepartmentController extends Controller
 
     public function store(StoreDepartmentRequest $request)
     {
-        // FormRequest ile gelen validated verilerle yeni bir department oluştur
         Department::create($request->validated());
 
         return redirect()->route('departments.index')
@@ -51,7 +50,6 @@ class DepartmentController extends Controller
 
     public function update(UpdateDepartmentRequest $request, $id)
     {
-        // Mevcut department'ı al ve FormRequest ile gelen validated verilerle güncelle
         $department = Department::findOrFail($id);
         $department->update($request->validated());
 

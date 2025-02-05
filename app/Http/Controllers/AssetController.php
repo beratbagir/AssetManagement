@@ -19,31 +19,25 @@ class AssetController extends Controller
 {
     public function index(Request $request)
 {
-    // Sıralama yapılacak sütunlar
     $sortableColumns = ['asset_name', 'product_id', 'licence_id', 'serial_number', 'quantity', 'status', 'assigned_to', 'brand'];
     
-    // Varsayılan sıralama kriterleri
     $sort = $request->get('sort', 'asset_id');
     $direction = $request->get('direction', 'asc');
 
-    // Filtreleme sorgusu
     $query = Asset::query()
         ->search($request->input('search'))
         ->filterByStatus($request->input('status'))
         ->filterByProduct($request->input('product_id'))
         ->filterByAssignedTo($request->input('assigned_to'));
 
-    // Verileri getirme (get() yerine paginate() kullanıldı)
     $assets = $query->paginate(10)->appends(request()->query());
 
-    // Diğer verileri çekme
     $manufacturers = Manufacturers::all();
     $suppliers = Supplier::all();
     $users = User::all();
     $products = Product::all();
     $licenses = Licence::all();
 
-    // Görünüme verileri gönderme
     return view('assets.index', compact('assets', 'suppliers', 'products', 'users', 'licenses', 'manufacturers'));
 }
 

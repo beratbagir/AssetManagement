@@ -32,7 +32,6 @@ class CompaniesController extends Controller
 
     public function store(StoreCompanyRequest $request)
     {
-        // Validated verileri kullanarak yeni company oluştur
         Companies::create($request->validated());
 
         return redirect()->route('companies.index')->with('success', 'Company created successfully.');
@@ -46,7 +45,6 @@ class CompaniesController extends Controller
 
     public function update(UpdateCompanyRequest $request, $id)
     {
-        // Mevcut company'yi al ve validated verilerle güncelle
         $company = Companies::findOrFail($id);
         $company->update($request->validated());
 
