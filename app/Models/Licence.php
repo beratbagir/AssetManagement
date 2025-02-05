@@ -29,6 +29,44 @@ class Licence extends Model
         return $this->belongsTo(Product::class, 'product_id');
     }
 
+    public function scopeSearch($query, $search)
+    {
+        if (!empty($search)) {
+            return $query->where('cost', 'like', '%' . $search . '%');
+        }
+        return $query;
+    }
+
+    
+    public function scopeFilterByLicence($query, $licence_id)
+    {
+        if (!empty($licence_id)) {
+            return $query->where('licence_id', $licence_id);
+        }
+        return $query;
+    }
+
+    public function scopeFilterByStatus($query, $status)
+    {
+        if (!empty($status)) {
+            return $query->where('status', $status);
+        }
+        return $query;
+    }
+
+    public function scopeSortBy($query, $sort, $direction)
+    {
+        $sortableColumns = ['licence_id', 'licence_key', 'cost', 'expiration_date', 'status', 'product_id'];
+
+        // Eğer sıralama sütunu desteklenenlerden biriyse, sıralama uygula
+        if (in_array($sort, $sortableColumns)) {
+            return $query->orderBy($sort, $direction);
+        }
+
+        // Varsayılan sıralama
+        return $query->orderBy('licence_id', $direction); // Default sıralama
+    }
+
     public function assets()
     {
         return $this->hasMany(Asset::class, 'licence_id');

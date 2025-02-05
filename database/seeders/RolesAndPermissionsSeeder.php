@@ -5,71 +5,42 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User; // Kullanıcı modelini dahil edin
 
 class RolesAndPermissionsSeeder extends Seeder
 {
     public function run()
     {
+        // Önceden eklenmiş roller ve izinleri temizle
+        Role::whereIn('name', ['super-admin', 'admin', 'user'])->delete();
+        Permission::whereIn('name', [
+            'view', 'create', 'edit', 'delete',
+        ])->delete();
+
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create permissions
         $permissions = [
             // Users
-            'view users',
-            'create users',
-            'edit users',
-            'delete users',
-            
-            // Roles
-            'view roles',
-            'create roles',
-            'edit roles',
-            'delete roles',
-            
-            // Assets
-            'view assets',
-            'create assets',
-            'edit assets',
-            'delete assets',
-            
-            // Products
-            'view products',
-            'create products',
-            'edit products',
-            'delete products',
-            
-            // Licences
-            'view licences',
-            'create licences',
-            'edit licences',
-            'delete licences',
-            
-            // Barcode
-            'view barcode',
-            'create barcode',
-            'scan barcode'
+            'view',
+            'create',
+            'edit',
+            'delete',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // SuperAdmin Role
-        $superAdmin = Role::create(['name' => 'super-admin']);
+        $superAdmin = Role::firstOrCreate(['name' => 'super-admin']);
         $superAdmin->givePermissionTo(Permission::all());
 
-        // Admin Role
-        $admin = Role::create(['name' => 'admin']);
-        $admin->givePermissionTo(Permission::all()->except(['view users', 'create users', 'edit users', 'delete users']));
-
-        // User Role
-        $user = Role::create(['name' => 'user']);
-        $user->givePermissionTo([
-            'view assets',
-            'view products',
-            'view barcode',
-            'scan barcode'
-        ]);
+        // Tüm kullanıcılara super-admin rolü ver
+        $users = User::all(); // Tüm kullanıcıları al
+        foreach ($users as $user) {
+            $user->syncRoles(['super-admin']); // Her kullanıcıya super-admin rolünü ver
+        }
     }
-} 
+}

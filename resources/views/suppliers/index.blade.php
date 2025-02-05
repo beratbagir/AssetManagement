@@ -8,14 +8,21 @@
         <div class="col-md-12">
             <h2>Suppliers</h2>
             <a href="{{ route('supplier.create') }}" class="btn btn-primary mb-3">Create Supplier</a>
-
+            <!-- Search Form -->
+            <form action="{{ route('manufacturer.index') }}" method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by Supplier Name" value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-secondary">Search</button>
+                </div>
+            </form>
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Supplier ID</th>
                         <th>Supplier Name</th>
-                        <th>Supplier Adress</th>
                         <th>Contact Name</th>
                         <th>E-Mail</th>
+                        
                         <th>Phone</th>
                         <th>Products</th>
                         <th>Licences</th>

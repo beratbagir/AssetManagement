@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Department;
+use App\Http\Requests\StoreDepartmentRequest;
+use App\Http\Requests\UpdateDepartmentRequest;
 use App\Models\Companies;
 use Illuminate\Http\Request;
 
@@ -9,28 +11,14 @@ class DepartmentController extends Controller
 {
     public function index(Request $request)
     {   
-        $query = Department::query();
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where('name', 'like', '%' . $search . '%');
-        }
-    
-        // Şirket filtresi
-        if ($request->filled('company_id')) {
-            $query->where('company_id', $request->company_id);
-        }
+        $query = Department::query()
+            ->search($request->input('search'))
+            ->filterByCompany($request->input('company_id'));
 
-        $sortableColumns = ['name', 'company_id'];
-        $sort = $request->get('sort', 'name');
-        $direction = $request->get('direction', 'asc');
 
-        if ($sort === 'name') {
-            $query->orderBy('name', $direction);
-        }
-
-        if ($sort === 'company_id') {
-            $query->orderBy('company_id', $direction);
-        }
+            $sort = $request->get('sort', 'name');
+            $direction = $request->get('direction', 'asc');
+            $query->sortBy($sort, $direction);
 
         $departments = $query->paginate(10)->appends(request()->query());
         $companies = Companies::all();
@@ -45,19 +33,11 @@ class DepartmentController extends Controller
         return view('departments.create', compact('companies', 'departments'));
     }
 
-    public function store(Request $request)
+    public function store(StoreDepartmentRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'company_id' => 'required|exists:companies,id',
-        ]);
+        // FormRequest ile gelen validated verilerle yeni bir department oluştur
+        Department::create($request->validated());
 
-        Department::create([
-            'name' => $request->name,
-            'company_id' => $request->company_id,
-        ]);
-
-        // Başarı mesajıyla yönlendir
         return redirect()->route('departments.index')
             ->with('success', 'Department created successfully.');
     }
@@ -69,15 +49,11 @@ class DepartmentController extends Controller
         return view('departments.edit', compact('department', 'companies'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateDepartmentRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'company_id' => 'required|exists:companies,id',
-        ]);
-
+        // Mevcut department'ı al ve FormRequest ile gelen validated verilerle güncelle
         $department = Department::findOrFail($id);
-        $department->update($request->all());
+        $department->update($request->validated());
 
         return redirect()->route('departments.index')
             ->with('success', 'Department updated successfully');

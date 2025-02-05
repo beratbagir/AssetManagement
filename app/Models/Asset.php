@@ -23,10 +23,64 @@ class Asset extends Model
         'notes'
     ];
 
+    
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    public function scopeSearch($query, $search)
+    {
+        if (!empty($search)) {
+            return $query->where('asset_name', 'like', '%' . $search . '%');
+        }
+        return $query;
+    }
+
+    // Status Scope
+    public function scopeFilterByStatus($query, $status)
+    {
+        if (!empty($status)) {
+            return $query->where('status', $status);
+        }
+        return $query;
+    }
+
+    // Product Scope
+    public function scopeFilterByProduct($query, $productId)
+    {
+        if (!empty($productId)) {
+            return $query->where('product_id', $productId);
+        }
+        return $query;
+    }
+
+    // Assigned To Scope
+    public function scopeFilterByAssignedTo($query, $assignedTo)
+    {
+        if (!empty($assignedTo)) {
+            return $query->where('assigned_to', $assignedTo);
+        }
+        return $query;
+    }
+
+    public function scopeSortBy($query, $sort, $direction)
+    {
+        $sortableColumns = ['asset_name', 'product_id', 'licence_id', 'serial_number', 'quantity', 'status', 'assigned_to', 'brand'];
+
+        // Eğer sıralama sütunu desteklenenlerden biriyse, sıralama uygula
+        if (in_array($sort, $sortableColumns)) {
+            if ($sort === 'asset_name') {
+                return $query->orderByRaw('LEFT(asset_name, 1) ' . $direction); // asset_name için özel sıralama
+            }
+            return $query->orderBy($sort, $direction);
+        }
+        
+        // Varsayılan sıralama
+        return $query->orderBy('asset_id', $direction); // Default sıralama
+    }
+
 
     public function licence()
     {

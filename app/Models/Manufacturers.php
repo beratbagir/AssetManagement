@@ -28,4 +28,12 @@ class Manufacturers extends Model
     return $this->hasMany(Licence::class, 'manufacturer_id', 'id');
 }
 
+public function scopeSearch($query, $search)
+    {
+        if (!empty($search)) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        }
+        return $query;
+    }
+
 }

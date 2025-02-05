@@ -20,12 +20,12 @@ class AssetFactory extends Factory
     {
         return [
             'asset_name' => $this->faker->word . ' ' . $this->faker->randomElement(['Laptop', 'Phone', 'Tablet', 'Monitor']),
-            'product_id' => Product::inRandomOrder()->first()->product_id, // Rastgele bir ürün seç
-            'licence_id' => Licence::inRandomOrder()->first()->licence_id, // Rastgele bir lisans seç
+            'product_id' => Product::inRandomOrder()->first()->product_id, 
+            'licence_id' => Licence::inRandomOrder()->first()->licence_id,
             'serial_number' => $this->faker->unique()->word,
             'quantity' => $this->faker->numberBetween(1, 10),
             'status' => $this->faker->randomElement(['active', 'inactive', 'maintenance']),
-            'assigned_to' => User::inRandomOrder()->first()->id, // Rastgele bir kullanıcı ataması
+            'assigned_to' => User::inRandomOrder()->first()->id, 
             'notes' => $this->faker->sentence,
         ];
     }

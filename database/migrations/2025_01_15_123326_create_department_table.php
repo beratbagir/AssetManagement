@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');  // Departman adı
-            $table->foreignId('company_id')->constrained()->onDelete('cascade');  // company_id ile Company'ye bağlanıyor
+            $table->string('name');  
+            $table->foreignId('company_id')->constrained()->onDelete('cascade');
         });
     }
 

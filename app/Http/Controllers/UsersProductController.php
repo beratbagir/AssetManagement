@@ -13,33 +13,18 @@ class UsersProductController extends Controller
 {
     $query = UsersProduct::query();
     
-    if ($request->filled('search')) {
-        $query->where(function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->search . '%')
-              ->orWhereHas('product', function ($q) use ($request) {
-                  $q->where('name', 'like', '%' . $request->search . '%');
-              })
-              ->orWhereHas('department', function ($q) use ($request) {
-                  $q->where('name', 'like', '%' . $request->search . '%');
-              });
-        });
-    }
+    $query = UsersProduct::with('product')
+            ->search($request->input('search'));
+            
 
-    $sortableColumns = ['id', 'name'];
     $sort = $request->get('sort', 'id');
     $direction = $request->get('direction', 'asc');
+    $query->sortBy($sort, $direction);
 
-    if ($sort === 'id') {
-        $query->orderBy('id', $direction);
-    }
-
-    if ($sort === 'name') {
-        $query->orderBy('name', $direction);
-    }
-
-    $usersProducts = $query->paginate(10)->appends(request()->query()); // 10, sayfa başına gösterilecek öğe sayısıdır
     $products = Product::all();
     $departments = Department::all();
+    $usersProducts = $query->paginate(10)->appends(request()->query());
+
 
     return view('userproduct.index', compact('usersProducts', 'products', 'departments'));
 }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\License;
 use App\Models\Manufacturers;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+
 use App\Models\Supplier;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -13,40 +16,42 @@ class ProductController extends Controller
 {
     public function index(Request $request)
 {
-    $query = Product::query()->with(['category']); // with() doğrudan sorguya ekleniyor
+    $query = Product::query()->with(['category']) 
 
-    // Eğer arama sorgusu varsa filtre uygula
-    if ($request->filled('search')) {
-        $query->where(function ($q) use ($request) {
-            $q->where('name', 'like', '%' . $request->search . '%');
-        });
-    };
+    ->search($request->input('search'))
+            ->filterByCategory($request->input('category_id'));
 
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
+    $sortableColumns = ['product_name', 'brand', 'support_expire_date', 'purchase_date', 'cost'];
+    $sort = $request->get('sort', 'name');
+    $direction = $request->get('direction', 'asc');
 
-        $sortableColumns = ['product_name', 'brand', 'support_expire_date', 'purchase_date', 'cost'];
-        $sort = $request->get('sort', 'name');
-        $direction = $request->get('direction', 'asc');
+    $sort = $request->get('sort', 'product_name'); 
+    $direction = $request->get('direction', 'asc'); 
 
-        if ($sort === 'product_name') {
-            $query->orderBy('product_name', $direction);
-        }
+    // Scope'ları kullanarak sıralama işlemleri
+    switch ($sort) {
+        case 'product_name':
+            $query->sortByProductName($direction);
+            break;
 
-        if ($sort === 'support_expire_date') {
-            $query->orderBy('support_expire_date', $direction);
-        }
+        case 'support_expire_date':
+            $query->sortBySupportExpireDate($direction);
+            break;
 
-        if ($sort === 'purchase_date') {
-            $query->orderBy('purchase_date', $direction);
-        }
+        case 'purchase_date':
+            $query->sortByPurchaseDate($direction);
+            break;
 
-        if ($sort === 'cost') {
-            $query->orderBy('cost', $direction);
-        }
+        case 'cost':
+            $query->sortByCost($direction);
+            break;
 
-    $products = $query->paginate(10)->appends(request()->query()); 
+        default:
+            $query->sortByProductName($direction); // Varsayılan sıralama
+            break;
+    }
+
+        $products = $query->paginate(10)->appends(request()->query());
     $categories = Category::all();
 
     return view('products.index', compact('products', 'categories'));
@@ -59,6 +64,7 @@ class ProductController extends Controller
 
         return view('products.history', compact('product'));
     }
+    
 
     public function create()
     {
@@ -68,19 +74,9 @@ class ProductController extends Controller
         return view('products.create', compact('categories', 'suppliers', 'manufacturers'));
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $request->validate([
-            'category_id' => 'required|exists:categories,id',
-            'manufacturer_id' => 'nullable|exists:manufacturers,id',
-            'product_name' => 'required|string|max:255',
-            'type' => 'nullable|string|max:255',
-            'support_expire_date' => 'required|date',
-            'purchase_date' => 'required|date',
-            'cost' => 'required|integer'
-        ]);
-
-        Product::create($request->all());
+        Product::create($request->validated());
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
@@ -94,20 +90,11 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'categories', 'suppliers', 'manufacturers'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, $id)
     {
-        $request->validate([
-            'product_name' => 'required|string|max:255',
-            'manufacturer_id' => 'nullable|exists:manufacturers,id',
-            'category_id' => 'required|exists:categories,id',
-            'type' => 'nullable|string|max:255',
-            'support_expire_date' => 'required|date',
-            'purchase_date' => 'required|date',
-            'cost' => 'required|integer'
-        ]);
-
         $product = Product::findOrFail($id);
-        $product->update($request->all());
+
+        $product->update($request->validated());
 
         return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }

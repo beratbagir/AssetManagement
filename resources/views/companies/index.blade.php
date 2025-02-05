@@ -8,7 +8,6 @@
         <div class="col-md-12">
             <h2>Company</h2>
             <a href="{{ route('companies.create') }}" class="btn btn-primary mb-3">Create Companies</a>
-            
             <form action="{{ route('companies.index') }}" method="GET" class="mb-3">
                 <div class="input-group">
                     <!-- Arama için Company Name Input -->
@@ -16,7 +15,6 @@
                     <button type="submit" class="btn btn-secondary">Search</button>
                 </div>
             </form>
-            
             <table class="table table-bordered">
                 <thead>
                     <tr>

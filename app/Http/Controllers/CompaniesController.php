@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Companies;
+use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Http\Request;
 
 class CompaniesController extends Controller
@@ -14,12 +16,9 @@ class CompaniesController extends Controller
             $query->where('name', 'like', '%' . $search . '%'); // Sadece company_name üzerinden arama
         }
 
-        $sortableColumns = ['name'];
         $sort = $request->get('sort', 'name');
         $direction = $request->get('direction', 'asc');
-        if ($sort === 'name') {
-            $query->orderBy('name', $direction);
-        }
+        $query->sortBy($sort, $direction);
         
         $companies = Companies::all();
         $companies = $query->paginate(10)->appends(request()->query());
@@ -31,13 +30,10 @@ class CompaniesController extends Controller
         return view('companies.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCompanyRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        Companies::create($request->all());
+        // Validated verileri kullanarak yeni company oluştur
+        Companies::create($request->validated());
 
         return redirect()->route('companies.index')->with('success', 'Company created successfully.');
     }
@@ -48,14 +44,11 @@ class CompaniesController extends Controller
         return view('companies.edit', compact('company'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateCompanyRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
+        // Mevcut company'yi al ve validated verilerle güncelle
         $company = Companies::findOrFail($id);
-        $company->update($request->all());
+        $company->update($request->validated());
 
         return redirect()->route('companies.index')->with('success', 'Company updated successfully.');
     }

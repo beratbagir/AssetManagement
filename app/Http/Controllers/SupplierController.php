@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Models\Asset;
+use App\Http\Requests\StoreSupplierRequest;
+use App\Http\Requests\UpdateSupplierRequest;
 use App\Models\Product;
 use App\Models\Licence;
 use Illuminate\Http\Request;
@@ -11,8 +13,13 @@ class SupplierController extends Controller
 {
     public function index(Request $request)
     {
+
+        $query = Supplier::query()
+        ->search($request->input('search')); 
         
-        $suppliers = Supplier::withCount( 'licences', 'products')->get();
+        $suppliers = $query->withCount('licences', 'products') 
+    ->paginate(10) 
+    ->appends(request()->query());
         
         return view('suppliers.index', compact('suppliers'));
     }
@@ -25,21 +32,9 @@ class SupplierController extends Controller
         return view('suppliers.create', compact('products', 'licences', 'suppliers'));
     }
 
-    public function store(Request $request)
+    public function store(StoreSupplierRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zip' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
-        ]);
-
-        Supplier::create($request->all());
+        Supplier::create($request->validated());
         return redirect()->route('supplier.index');
     }
 
@@ -51,22 +46,10 @@ class SupplierController extends Controller
         return view('suppliers.edit', compact('supplier', 'assets', 'licences'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateSupplierRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'phone' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zip' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'contact_person' => 'required|string|max:255',
-        ]);
-
         $supplier = Supplier::findOrFail($id);
-        $supplier->update($request->all());
+        $supplier->update($request->validated());
         return redirect()->route('supplier.index');
     }
 

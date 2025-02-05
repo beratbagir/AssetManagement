@@ -31,7 +31,7 @@ return new class extends Migration
       ->onDelete('cascade');
 
 $table->foreign('license_id')
-      ->references('licence_id') // 'licence_id' doğru şekilde bağlanıyor
+      ->references('licence_id') 
       ->on('licences')
       ->onDelete('cascade');
         });

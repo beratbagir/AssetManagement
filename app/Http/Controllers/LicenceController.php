@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Licence;
+use App\Http\Requests\StoreLicencesRequest;
+use App\Http\Requests\UpdateLicencesRequest;
 use App\Models\Product;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -11,51 +13,14 @@ class LicenceController extends Controller
 {
     public function index(Request $request)
 {
-    $query = Licence::with('product'); // Licence ile birlikte Product ilişkisini getir
+    $query = Licence::with('product')
+            ->search($request->input('search'))
+            ->filterByStatus($request->input('status'))
+            ->filterByLicence($request->input('licence_id'));
 
-    // Eğer arama yapılmışsa filtre uygula
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function($q) use ($search) {
-            $q->where('product_id', 'like', '%' . $search . '%');
-        });
-    }
-
-    if ($request->filled('licence_id')) {
-        $query->where('licence_id', $request->licence_id);
-    }
-
-    if ($request->filled('status')) {
-        $query->where('status', $request->status);
-    }
-
-    $sortableColumns = ['licence_id', 'licence_key', 'cost', 'expiration_date', 'status', 'product_id'];
-    $sort = $request->get('sort', 'licence_id');
-    $direction = $request->get('direction', 'asc');
-
-    if ($sort === 'licence_id') {
-        $query->orderBy('licence_id', $direction);
-    }
-
-    if ($sort === 'licence_key') {
-        $query->orderBy('licence_key', $direction);
-    }
-
-    if ($sort === 'cost') {
-        $query->orderBy('cost', $direction);
-    }
-
-    if ($sort === 'expiration_date') {
-        $query->orderBy('expiration_date', $direction);
-    }
-
-    if ($sort === 'status') {
-        $query->orderBy('status', $direction);
-    }
-
-    if ($sort === 'product_id') {
-        $query->orderBy('product_id', $direction);
-    }
+            $sort = $request->get('sort', 'licence_id');
+            $direction = $request->get('direction', 'asc');
+            $query->sortBy($sort, $direction);
 
 
     // Filtrelenmiş ve ilişkilendirilmiş lisansları al
@@ -75,17 +40,10 @@ class LicenceController extends Controller
         return view('licences.create', compact('products', 'suppliers'));
     }
 
-    public function store(Request $request)
+    public function store(StoreLicencesRequest $request)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,product_id',
-            'licence_key' => 'required|string|max:255',
-            'expiration_date' => 'required|date',
-            'cost' => 'required|numeric',
-            'status' => 'required|string|max:255',
-        ]);
-
-        $licence = Licence::create($request->all());
+        // FormRequest'ten gelen validated verilerle yeni bir licence oluştur
+        Licence::create($request->validated());
 
         return redirect()->route('licences.index')
             ->with('success', 'Licence created successfully.');
@@ -99,19 +57,11 @@ class LicenceController extends Controller
         return view('licences.edit', compact('licence', 'suppliers', 'products'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateLicencesRequest $request, $id)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,product_id',
-            'licence_key' => 'required|string|max:255',
-            'expiration_date' => 'required|date',
-            'supplier_id' => 'nullable|exists:suppliers,supplier_id',
-            'cost' => 'required|integer',
-            'status' => 'required|string|max:255',
-        ]);
-
         $licence = Licence::findOrFail($id);
-        $licence->update($request->all());
+        // FormRequest'ten gelen validated verilerle licence'ı güncelle
+        $licence->update($request->validated());
 
         return redirect()->route('licences.index')
             ->with('success', 'Licence updated successfully.');

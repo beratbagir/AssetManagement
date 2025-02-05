@@ -8,7 +8,13 @@
         <div class="col-md-12">
             <h2>Manufacturers</h2>
             <a href="{{ route('manufacturer.create') }}" class="btn btn-primary mb-3">Create Manufacturer</a>
-
+             <!-- Search Form -->
+             <form action="{{ route('manufacturer.index') }}" method="GET" class="mb-3">
+                <div class="input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search by Manufacturer Name" value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-secondary">Search</button>
+                </div>
+            </form>
             <table class="table table-bordered">
                 <thead>
                     <tr>

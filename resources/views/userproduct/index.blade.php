@@ -1,12 +1,12 @@
 @extends('back.layouts.pages-layout')
 
-@section('pageTitle', 'Users Products')
+@section('pageTitle', 'Users')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Users Products</h2>
+            <h2>Users</h2>
             <a href="{{ route('users.create') }}" class="btn btn-primary mb-3">Create User</a>
 
             <!-- Search Form -->
