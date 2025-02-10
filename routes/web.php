@@ -4,7 +4,9 @@ use App\Http\Controllers\AssetController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\licenceController;
+use App\Http\Controllers\AccessoryController;
 use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\ComponentController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -152,5 +154,23 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{id}', [ManufacturersController::class, 'update'])->name('manufacturer.update');
         Route::get('/{id}/edit', [ManufacturersController::class, 'edit'])->name('manufacturer.edit');
         Route::delete('/{id}', [ManufacturersController::class, 'destroy'])->name('manufacturer.destroy');
+    });
+
+    Route::prefix('components')->group(function () {
+        Route::get('/', [ComponentController::class, 'index'])->name('components.index');
+        Route::get('/create', [ComponentController::class, 'create'])->name('components.create');
+        Route::post('/', [ComponentController::class, 'store'])->name('components.store');
+        Route::put('/{id}', [ComponentController::class, 'update'])->name('components.update');
+        Route::get('/{id}/edit', [ComponentController::class, 'edit'])->name('components.edit');
+        Route::delete('/{id}', [ComponentController::class, 'destroy'])->name('components.destroy');
+    });
+
+    Route::prefix('accessories')->group(function () {
+        Route::get('/', [AccessoryController::class, 'index'])->name('accessories.index');
+        Route::get('/create', [AccessoryController::class, 'create'])->name('accessories.create');
+        Route::post('/', [AccessoryController::class, 'store'])->name('accessories.store');
+        Route::put('/{id}', [AccessoryController::class, 'update'])->name('accessories.update');
+        Route::get('/{id}/edit', [AccessoryController::class, 'edit'])->name('accessories.edit');
+        Route::delete('/{id}', [AccessoryController::class, 'destroy'])->name('accessories.destroy');
     });
 });

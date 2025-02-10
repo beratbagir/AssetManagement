@@ -15,4 +15,14 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function components()
+    {
+        return $this->hasMany(Component::class);
+    }
+
+    public function accessories()
+    {
+        return $this->hasMany(Accessory::class);
+    }
 }

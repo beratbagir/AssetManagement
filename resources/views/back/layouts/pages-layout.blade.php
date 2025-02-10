@@ -59,14 +59,24 @@
         <div class="collapse navbar-collapse" id="navbar-menu">
           <div class="navbar">
             <div class="container-xl">
+            
               <ul class="navbar-nav">
                 <li class="nav-item active">
                   <a class="nav-link" href="/">
-                    <span class="fas fa-tachometer-alt" style="color: #007bff;"></span> <!-- Mavi renk -->
+                    <span class="fas fa-tachometer-alt" style="color: #007bff;"></span>
                     <span class="nav-link-title">&nbsp;&nbsp;&nbsp;Dashboard</span>
                   </a>
                 </li>
-                
+      
+                <li class="nav-item active">
+                  <a class="nav-link" href="/accessories">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                      <i class="fas fa-plug"></i> <!-- Accessories simgesi -->
+                    </span>
+                    <span class="nav-link-title">Accessories</span>
+                  </a>
+                </li>
+      
                 <li class="nav-item active">
                   <a class="nav-link" href="/assets">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -75,7 +85,7 @@
                     <span class="nav-link-title">Assets</span>
                   </a>
                 </li>
-                
+      
                 <li class="nav-item active">
                   <a class="nav-link" href="/barcode">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -84,6 +94,7 @@
                     <span class="nav-link-title">Barcodes</span>
                   </a>
                 </li>
+      
                 <li class="nav-item active">
                   <a class="nav-link" href="/products">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -92,6 +103,16 @@
                     <span class="nav-link-title">Products</span>
                   </a>
                 </li>
+      
+                <li class="nav-item active">
+                  <a class="nav-link" href="/components">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                      <i class="fas fa-microchip"></i>
+                    </span>
+                    <span class="nav-link-title">Components</span>
+                  </a>
+                </li>                
+      
                 <li class="nav-item active">
                   <a class="nav-link" href="/licences">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -100,42 +121,42 @@
                     <span class="nav-link-title">Licences</span>
                   </a>
                 </li>
+      
                 <!-- Dropdown menu for related items -->
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                      <i class="fas fa-cog" style="color: #007bff;"></i> <!-- Settings simgesi ve mavi renk -->
+                      <i class="fas fa-cog" style="color: #007bff;"></i>
                     </span>
                     <span class="nav-link-title">Settings</span>
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="usersDropdown">
                     <li><a class="dropdown-item" href="/users">
-                      <i class="fas fa-user" style="color: #007bff;"></i> <!-- Mavi renkli kullanıcı simgesi -->
+                      <i class="fas fa-user" style="color: #007bff;"></i>
                       &nbsp;&nbsp;Users
                     </a></li>
                     <li><a class="dropdown-item" href="/suppliers">
-                      <i class="fas fa-truck" style="color: #007bff;"></i> <!-- Mavi renkli tedarikçi simgesi -->
+                      <i class="fas fa-truck" style="color: #007bff;"></i>
                       &nbsp;&nbsp;Suppliers
                     </a></li>
                     <li><a class="dropdown-item" href="/manufacturers">
-                      <i class="fas fa-industry" style="color: #007bff;"></i> <!-- Mavi renkli üretici simgesi -->
+                      <i class="fas fa-industry" style="color: #007bff;"></i>
                       &nbsp;&nbsp;Manufacturers
                     </a></li>
                     <li><a class="dropdown-item" href="/categories">
-                      <i class="fas fa-tag" style="color: #007bff;"></i> <!-- Mavi renkli kategori simgesi -->
+                      <i class="fas fa-tag" style="color: #007bff;"></i>
                       &nbsp;&nbsp;Categories
                     </a></li>
                     <li><a class="dropdown-item" href="/companies">
-                      <i class="fas fa-building" style="color: #007bff;"></i> <!-- Mavi renkli şirket simgesi -->
+                      <i class="fas fa-building" style="color: #007bff;"></i>
                       &nbsp;&nbsp;Companies
                     </a></li>
                     <li><a class="dropdown-item" href="/departments">
-                      <i class="fas fa-sitemap" style="color: #007bff;"></i> <!-- Mavi renkli departman simgesi -->
+                      <i class="fas fa-sitemap" style="color: #007bff;"></i>
                       &nbsp;&nbsp;Departments
                     </a></li>
                   </ul>
                 </li>
-                
               </ul>
               
               <div class="my-2 my-md-0 flex-grow-1 flex-md-grow-0 order-first order-md-last"></div>
@@ -143,6 +164,7 @@
           </div>
         </div>
       </header>
+      
       
       <div class="page-wrapper">
         <!-- Page header -->

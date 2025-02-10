@@ -63,6 +63,7 @@ class Licence extends Model
         }
 
         return $query->orderBy('licence_id', $direction); 
+    }
 
     public function assets()
     {
@@ -79,3 +80,5 @@ class Licence extends Model
         return $this->belongsTo(Manufacturers::class, 'manufacturer_id', 'id');
     }
 }
+
+

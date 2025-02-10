@@ -50,5 +50,4 @@ class ManufacturersController extends Controller
         $manufacturer->delete();
         return redirect()->route('manufacturer.index');
     }
-
 }
