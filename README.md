@@ -50,13 +50,8 @@ Follow the steps below to get the project up and running on your local environme
 
 7. Serve the application using Laravel Herd:
     ```bash
-    laravel serve
+    php artisan serve
     ```
-
-8.
-    ```bash    
-    php artisan db:seed --class=RoleSeeder
-    ``` 
 
 Your application should now be accessible at `http://localhost:8000`.
 
