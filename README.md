@@ -1,6 +1,6 @@
-# My Dashboard App
+# Asset Management App
 
-My Dashboard App is a web application built using the powerful Laravel framework, providing a user-friendly interface to manage various data within your system. This application takes full advantage of Laravel's modern features, such as Expressive Routing, Eloquent ORM, and more.
+Asset Management App is a web application built using the powerful Laravel framework, providing a user-friendly interface to manage various data within your system. This application takes full advantage of Laravel's modern features, such as Expressive Routing, Eloquent ORM, and more.
 
 ## Features
 - **Simple and Fast Routing**: Efficient and easy-to-use routing system.
