@@ -25,7 +25,7 @@ Follow the steps below to get the project up and running on your local environme
 
 2. Navigate into the project directory:
     ```bash
-    cd my-dashboard-app
+    cd AssetManagement
     ```
 
 3. Install dependencies using Composer:
