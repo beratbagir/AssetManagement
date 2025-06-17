@@ -62,7 +62,7 @@ Laravel Herd is a local development environment for Mac that is optimized for La
 2. After installing, you can run the application with the Laravel Herd environment to simplify your setup.
 
 ## Contributing
-Thank you for considering contributing to My Dashboard App! To contribute:
+Thank you for considering contributing to Asset Management To contribute:
 
 1. Fork the repository.
 2. Create a new branch.
