@@ -20,7 +20,7 @@ Follow the steps below to get the project up and running on your local environme
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/beratbagir/my-dashboard-app.git
+    git clone https://github.com/beratbagir/AssetManagement.git
     ```
 
 2. Navigate into the project directory:
